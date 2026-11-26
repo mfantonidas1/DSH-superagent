@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>贪食蛇</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="titlebar">
+      <h1 id="game-title">贪食蛇</h1>
+      <p id="game-help">方向键 / WASD 转向，空格暂停，回车开始/重开</p>
+    </header>
+
+    <section class="hud" aria-label="游戏状态">
+      <div class="hud-item">
+        <span class="hud-label">分数</span>
+        <span class="hud-value" id="hud-score">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">最高分</span>
+        <span class="hud-value" id="hud-high">0</span>
+      </div>
+      <div class="hud-item hud-item-speed">
+        <span class="hud-value" id="hud-speed">速度 x4</span>
+      </div>
+      <button id="btn-pause" class="btn btn-secondary" type="button" disabled>暂停</button>
+    </section>
+
+    <div class="board-wrap" id="board-wrap">
+      <canvas id="board" width="600" height="600"></canvas>
+
+      <div id="overlay-start" class="overlay" role="dialog" aria-modal="false" aria-label="开始游戏">
+        <div class="panel">
+          <p class="hint">按回车或点击按钮开始</p>
+          <button id="btn-start" class="btn btn-primary" type="button">开始游戏</button>
+        </div>
+      </div>
+
+      <div id="overlay-pause" class="overlay" role="dialog" aria-modal="false" aria-label="已暂停" hidden>
+        <div class="panel">
+          <h2 class="overlay-title">已暂停</h2>
+          <p class="hint">按空格或点击继续按钮恢复</p>
+        </div>
+      </div>
+
+      <div id="overlay-over" class="overlay" role="dialog" aria-modal="false" aria-label="游戏结束" hidden>
+        <div class="panel">
+          <h2 class="overlay-title">游戏结束</h2>
+          <div class="over-stats">
+            <div class="hud-item">
+              <span class="hud-label">分数</span>
+              <span class="hud-value" id="over-score">0</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">最高分</span>
+              <span class="hud-value" id="over-high">0</span>
+            </div>
+          </div>
+          <p id="over-record" class="record" hidden>新纪录！</p>
+          <button id="btn-restart" class="btn btn-primary" type="button">重新开始</button>
+          <p class="hint">按回车也可重开</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 经典脚本，固定加载顺序（docs/API.md §1）；无 type="module"，file:// 直开可玩 -->
+  <script src="js/constants.js"></script>
+  <script src="js/rng.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
