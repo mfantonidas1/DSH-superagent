@@ -1,0 +1,45 @@
+# =============================================================================
+# 单机版贪食蛇 —— nginx 生产静态托管「参考配置」（可选，非必需）
+#
+# 重要说明：
+#   - 本项目是纯静态前端（snake-game/frontend/），零运行时依赖、零构建、
+#     零网络请求；无后端进程、无数据库、无环境变量、无密钥。
+#   - 首要运行方式是 file:// 直开 frontend/index.html，完全不需要 nginx。
+#     本文件只是「如果选择用 nginx 做公开静态托管」时的参考模板，
+#     不是部署必需品，也不包含任何后端代理（没有 proxy_pass / fastcgi）。
+#
+# 使用方法（仅当选择 nginx 托管时）：
+#   1. 将下方 root 改为部署机上 frontend/ 目录的实际绝对路径；
+#   2. 按需修改 listen / server_name（server_name 为占位符域名）；
+#   3. 复制到 /etc/nginx/conf.d/snake.conf（或 sites-available 并启用软链）；
+#   4. nginx -t 校验配置，然后 systemctl reload nginx（或 nginx -s reload）。
+#
+# 注意：用户最高分只存在各自浏览器的 localStorage（按源隔离），
+#       服务端不保存任何用户数据，换域名/换机器不影响游戏运行。
+# =============================================================================
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name snake.example.com;   # 占位符：改为你的域名，或删除本行作为默认服务器
+
+    # 占位符：改为 frontend/ 的实际绝对路径（目录内应直接包含 index.html）
+    root /var/www/snake-game/frontend;
+    index index.html;
+
+    charset utf-8;
+
+    # 纯静态文件：找不到即 404，无任何回退到后端的路径
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # 可选：静态资源短缓存（游戏文件少且零依赖，按需开启）
+    # location ~* \.(css|js)$ {
+    #     expires 1h;
+    #     add_header Cache-Control "public";
+    # }
+
+    access_log /var/log/nginx/snake.access.log;
+    error_log  /var/log/nginx/snake.error.log;
+}

@@ -1,0 +1,155 @@
+/* styles.css — 按 docs/UI-SPEC.md v1.0 设计令牌实现（清新草绿；零外部资源）。 */
+
+:root {
+  --chrome-bg: #eef1ea;
+  --surface: #ffffff;
+  --text-primary: #22301f;
+  --text-secondary: #57684f;
+  --brand: #1b7a3d;
+  --brand-hover: #166532;
+  --brand-active: #124f28;
+  --border: #c9d6c2;
+  --record-bg: #fbeae7;
+  --record-text: #a03325;
+  --scrim: rgba(238, 241, 234, 0.88);
+  --disabled-bg: #e3e8df;
+  --disabled-text: #8b9784;
+  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--chrome-bg);
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* 内容列：桌面 600px 居中、左右留白 >=24px；移动见断点 */
+.page { width: min(600px, calc(100vw - 48px)); margin: 0 auto; padding: 32px 0; }
+
+.titlebar { text-align: center; }
+#game-title { margin: 0; font-size: 28px; font-weight: 700; line-height: 36px; }
+#game-help { margin: 8px 0 0; font-size: 14px; line-height: 20px; color: var(--text-secondary); }
+
+/* HUD：全状态常显，永不被遮罩覆盖（UI-SPEC §3.2） */
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 16px;
+  box-shadow: 0 1px 3px rgba(34, 48, 31, 0.08);
+}
+.hud-item { display: flex; flex-direction: column; }
+.hud-label { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--text-secondary); }
+.hud-value { font-size: 20px; font-weight: 600; line-height: 28px; font-variant-numeric: tabular-nums; }
+.hud-item-speed { justify-content: center; }
+#btn-pause { margin-left: auto; }
+
+/* 棋盘容器：正方形、触摸滑动区（UI-SPEC §3.4） */
+.board-wrap {
+  position: relative;
+  margin-top: 12px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  touch-action: none;
+  background: #f3f7f0;
+}
+#board { display: block; width: 100%; height: 100%; }
+
+/* 按钮（UI-SPEC §3.1） */
+.btn {
+  appearance: none;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  min-width: 112px;
+  padding: 0 24px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.btn:focus-visible { outline: 3px solid var(--text-primary); outline-offset: 2px; }
+.btn-primary { background: var(--brand); color: #ffffff; }
+.btn-primary:hover { background: var(--brand-hover); }
+.btn-primary:active { background: var(--brand-active); transform: translateY(1px); }
+.btn-secondary { background: var(--surface); color: var(--brand); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #f3f7f0; }
+.btn-secondary:active { background: #e8efe3; transform: translateY(1px); }
+.btn:disabled {
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  border-color: var(--disabled-bg);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 遮罩：仅覆盖棋盘容器；显隐只用 hidden 属性（UI-SPEC §3.3） */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--scrim);
+}
+.overlay[hidden] { display: none; }
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(320px, calc(100% - 32px));
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(34, 48, 31, 0.18);
+  text-align: center;
+}
+.overlay-title { margin: 0; font-size: 28px; font-weight: 700; line-height: 36px; }
+.hint { margin: 0; font-size: 14px; line-height: 20px; color: var(--text-secondary); }
+.over-stats { display: flex; gap: 32px; justify-content: center; }
+.record {
+  margin: 0;
+  background: var(--record-bg);
+  color: var(--record-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+.record[hidden] { display: none; }
+
+/* 移动断点 480px（UI-SPEC §5） */
+@media (max-width: 480px) {
+  .page { width: calc(100vw - 24px); padding: 16px 0; }
+  #game-title { font-size: 22px; line-height: 28px; }
+  #game-help { font-size: 12px; line-height: 18px; }
+  .hud { gap: 12px; padding: 8px 12px; flex-wrap: wrap; }
+  .hud-value { font-size: 18px; line-height: 24px; }
+  .btn { height: 44px; }
+  .panel { padding: 16px; }
+  .overlay-title { font-size: 22px; line-height: 28px; }
+  .hint { font-size: 12px; line-height: 18px; }
+}
+
+/* 动效无障碍（UI-SPEC §6.7） */
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .btn:active { transform: none; }
+}
