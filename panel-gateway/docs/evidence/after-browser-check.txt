@@ -1,0 +1,18 @@
+=== 页面状态 ===
+{
+ "url": "http://172.16.2.238:3083/",
+ "title": "DeepSeek Harness",
+ "boot": true,
+ "rootHTML": 80841,
+ "bodyChars": 380,
+ "bodyText": "（含工作区/会话名，已脱敏；见 bodyChars=380 与 rootHTML=80841）",
+ "ready": "complete"
+}
+=== 控制台 error/warning ===
+  （无）
+=== >=400 响应（去 query）===
+  （无）
+=== WebSocket ===
+ws://172.16.2.238:3083/api/remote.mux frames=11
+=== 截图 → /tmp/panel-after.png ===
+RESULT=PASS

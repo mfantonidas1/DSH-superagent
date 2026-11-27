@@ -1,0 +1,14 @@
+ok   1 无凭据 nginx 401
+ok   2 错密码 nginx 401
+ok   3 无 cookie 引导 303+Set-Cookie
+ok   3b Location 相对（不回漏回环地址）
+ok   3c cookie 名绑定回环 authority
+ok   4 带 cookie 200 + __DSH_BOOT__
+ok   5 有 cookie 直接 200
+ok   6 WS 升级 101
+ok   7 同源 Origin 过栅栏
+ok   8 外来 Origin 403
+ok   9 无 cookie API 401
+ok   10 面板仅回环 3082
+----
+PASS=12 FAIL=0

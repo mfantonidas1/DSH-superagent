@@ -1,0 +1,6 @@
+== Before（部署前，2026-11-27）==
+$ curl -sS -m 5 http://172.16.2.238:3083/
+curl: (7) Failed to connect to 172.16.2.238 port 3083 after 0 ms: Couldn't connect to server
+
+$ ss -tln | grep -E '3082|3083'
+LISTEN 0      511                                 127.0.0.1:3082       0.0.0.0:*          
