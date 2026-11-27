@@ -1,0 +1,6 @@
+[Unit]
+Description=同步 superagent 面板启动 token 到 nginx 并 reload
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/dsh-workspace/panel-gateway/bin/refresh-token.sh

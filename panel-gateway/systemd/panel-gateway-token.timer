@@ -1,0 +1,11 @@
+[Unit]
+Description=每分钟同步 superagent 面板启动 token
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+AccuracySec=15s
+Persistent=true
+
+[Install]
+WantedBy=timers.target
